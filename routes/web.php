@@ -12,25 +12,30 @@
 */
 
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\ForgotPasswordController;
+
 
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/login/facebook', 'Auth\LoginController@redirectToFacebookProvider');
-Route::get('login/facebook/callback', 'Auth\LoginController@handleProviderFacebookCallback');
 
-// // Auth::routes();
-Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
-Route::post('/login', 'Auth\LoginController@login');
-Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-
-// // Registration Routes...
-Route::get('register', 'Auth\AuthController@showRegistrationForm')->name('register');
-Route::post('register', 'Auth\AuthController@create');
-// // Password Reset Routes...
-Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+// Route::namespace('Authenticator')->group(function () {
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::get('/login/facebook',  [LoginController::class, 'redirectToFacebookProvider'] );
+    Route::get('login/facebook/callback',  [LoginController::class, 'handleProviderFacebookCallback']);
+    Route::post('/login',[LoginController::class, 'login']);
+    Route::post('/logout',  [LoginController::class, 'logout'])->name('logout');
+    Route::get('register', [RegisterController::class, 'showRegistrationForm'] )->name('register');
+    Route::post('register', [RegisterController::class, 'create'] );
+    // // Password Reset Routes...
+    Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.request');
+    Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset');
+    Route::post('password/reset', 'ResetPasswordController@reset');
+// });

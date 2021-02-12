@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\User;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+// use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
 
-    use AuthenticatesUsers;
+    // use AuthenticatesUsers;
 
     /**
      * Where to redirect users after login.
@@ -69,13 +70,34 @@ class LoginController extends Controller
     {
         return view('auth.login');
     }
-
-    public function login()
+    public function login(Request $request)
     {
-        return 0;
+        $request->validate([
+            'name' => 'required',
+            'password' => 'required'
+        ]);
+
+        $credentials = $request->except(['_token']);
+
+        $user = User::where('name',$request->name)->first();
+
+        if (auth()->attempt($credentials)) {
+
+            return redirect()->route('home');
+
+        }else{
+            session()->flash('message', 'Invalid credentials');
+            return redirect()->back();
+        }
     }
 
     public function logout(){
-      
+      \Auth::logout();
+
+      return redirect()->route('login');
+
     }
+
+
+
 }

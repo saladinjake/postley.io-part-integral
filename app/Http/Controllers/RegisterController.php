@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\AuthMo;
 
 use App\User;
 use App\Http\Controllers\Controller;
@@ -45,6 +45,27 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
+     public function create(Request $request)
+     {
+         $request->validate([
+             'name' => 'required',
+             'email' => 'required',
+             'password' => 'required'
+         ]);
+
+         $user = User::create([
+             'name' => trim($request->input('name')),
+             'email' => strtolower($request->input('email')),
+             'password' => bcrypt($request->input('password')),
+         ]);
+
+         session()->flash('message', 'Your account is created');
+
+         return redirect()->route('login');
+     }
+
+
+     
     protected function validator(array $data)
     {
         return Validator::make($data, [
@@ -60,16 +81,11 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+
+
+    public function showRegistrationForm()
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        return view('auth.register');
     }
 
-    protected function showRegistrationForm(){
-       return view('auth.register');
-    }
 }
