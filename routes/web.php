@@ -22,9 +22,7 @@ use App\Http\Controllers\ForgotPasswordController;
 Route::get('/', function () {
     return view('welcome');
 });
-
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-
 // Route::namespace('Authenticator')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::get('/login/facebook',  [LoginController::class, 'redirectToFacebookProvider'] );
@@ -33,11 +31,16 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::post('/logout',  [LoginController::class, 'logout'])->name('logout');
     Route::get('register', [RegisterController::class, 'showRegistrationForm'] )->name('register');
     Route::post('register', [RegisterController::class, 'create'] );
-    Route::get('/register/facebook',  [RegisterController::class, 'redirectToFacebookProvider'] );
-    Route::get('register/facebook/callback/',  [RegisterController::class, 'handleProviderFacebookCallback']);
     // // Password Reset Routes...
-    Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.request');
-    Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-    Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset');
-    Route::post('password/reset', 'ResetPasswordController@reset');
+    // Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'] )->name('password.request');
+    // Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'] )->name('password.email');
+    // Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'] )->name('password.reset');
+    // Route::post('password/reset',  [ResetPasswordController::class, 'reset']);
 // });
+
+Route::group(['middleware' => ['auth']], function(){
+    Route::get('/user/profile', 'FbpostController@getUserProfile');
+    Route::post('/user/profile', 'FbpostController@postToProfile');
+    Route::get('/profile', 'FbpostController@getProfile');
+    Route::get('/page/newpost', 'FbpostController@postToPage');
+});

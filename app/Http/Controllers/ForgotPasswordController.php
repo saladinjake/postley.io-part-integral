@@ -3,7 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+// use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use DB;
+use Carbon\Carbon;
+use Mail;
 
 class ForgotPasswordController extends Controller
 {
@@ -18,7 +24,7 @@ class ForgotPasswordController extends Controller
     |
     */
 
-    use SendsPasswordResetEmails;
+    // use SendsPasswordResetEmails;
 
     /**
      * Create a new controller instance.
@@ -32,7 +38,30 @@ class ForgotPasswordController extends Controller
 
     public function showLinkRequestForm(){
 
+        return view('auth.passwords.email');
     }
 
-    public sendResetLinkEmail(){}
+
+
+
+
+    public sendResetLinkEmail(){
+      $request->validate([
+          'email' => 'required|email|exists:users',
+      ]);
+
+      $token = Str::random(60);
+
+      DB::table('password_resets')->insert(
+          ['email' => $request->email, 'token' => $token, 'created_at' => Carbon::now()]
+      );
+
+      Mail::send('auth.passwords.verify',['token' => $token], function($message) use ($request) {
+                $message->from($request->email);
+                $message->to('juwavictor@gmail.com');
+                $message->subject('Reset Password Notification');
+             });
+
+      return back()->with('message', 'We have e-mailed your password reset link!');
+    }
 }

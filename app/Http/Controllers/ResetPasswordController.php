@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ResetsPasswords;
+// use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
 
 class ResetPasswordController extends Controller
 {
@@ -18,7 +19,7 @@ class ResetPasswordController extends Controller
     |
     */
 
-    use ResetsPasswords;
+    // use ResetsPasswords;
 
     /**
      * Where to redirect users after resetting their password.
@@ -37,7 +38,28 @@ class ResetPasswordController extends Controller
         $this->middleware('guest');
     }
 
-    public function showResetForm(){}
+    public function showResetForm($token) {
+       return view('auth.password.reset', ['token' => $token]);
+     }
+    public function reset(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users',
+            'password' => 'required|string|min:6|confirmed',
+            'password_confirmation' => 'required',
 
-    public function reset(){}
+        ]);
+
+        $updatePassword = DB::table('password_resets')
+                            ->where(['email' => $request->email, 'token' => $request->token])
+                            ->first();
+
+        if(!$updatePassword)
+            return back()->withInput()->with('error', 'Invalid token!');
+          $user = User::where('email', $request->email)
+                      ->update(['password' => Hash::make($request->password)]);
+          DB::table('password_resets')->where(['email'=> $request->email])->delete();
+          return redirect('/login')->with('message', 'Your password has been changed!');
+
+    }
 }

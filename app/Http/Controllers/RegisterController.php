@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 // use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
-;
+
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -93,7 +93,7 @@ class RegisterController extends Controller
     }
 
 
-  
+
 
 
 }
