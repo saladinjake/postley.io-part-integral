@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Models\User;
 // use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {

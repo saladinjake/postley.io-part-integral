@@ -28,11 +28,13 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 // Route::namespace('Authenticator')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::get('/login/facebook',  [LoginController::class, 'redirectToFacebookProvider'] );
-    Route::get('login/facebook/callback',  [LoginController::class, 'handleProviderFacebookCallback']);
+    Route::get('login/facebook/callback/',  [LoginController::class, 'handleProviderFacebookCallback']);
     Route::post('/login',[LoginController::class, 'login']);
     Route::post('/logout',  [LoginController::class, 'logout'])->name('logout');
     Route::get('register', [RegisterController::class, 'showRegistrationForm'] )->name('register');
     Route::post('register', [RegisterController::class, 'create'] );
+    Route::get('/register/facebook',  [RegisterController::class, 'redirectToFacebookProvider'] );
+    Route::get('register/facebook/callback/',  [RegisterController::class, 'handleProviderFacebookCallback']);
     // // Password Reset Routes...
     Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.request');
     Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');

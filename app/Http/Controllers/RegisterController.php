@@ -1,11 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\AuthMo;
+namespace App\Http\Controllers;
 
-use App\User;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
+// use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
 
 class RegisterController extends Controller
 {
@@ -20,14 +24,14 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    // use RegistersUsers;
 
     /**
      * Where to redirect users after registration.
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -59,13 +63,13 @@ class RegisterController extends Controller
              'password' => bcrypt($request->input('password')),
          ]);
 
-         session()->flash('message', 'Your account is created');
+         session()->flash('messagesuccess', 'Your account is created');
 
          return redirect()->route('login');
      }
 
 
-     
+
     protected function validator(array $data)
     {
         return Validator::make($data, [
@@ -87,5 +91,9 @@ class RegisterController extends Controller
     {
         return view('auth.register');
     }
+
+
+  
+
 
 }

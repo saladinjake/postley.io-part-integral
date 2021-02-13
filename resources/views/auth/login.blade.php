@@ -563,21 +563,36 @@ svg:not(:root) {
                                 <legend class="screenRead__style">Log in</legend>
                                 <div class="form__group1">
                                     <div class="form__group2 form__group3">
+                                      @if (count($errors) > 0)
+                                          <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                      <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                      </div>
+
+
+                                      @endif
+
+                                      @if(Session::has('message'))
+                                       <p class="alert alert-info">{{ Session::get('message') }}</p>
+                                     @endif
                                         <label for="user_login" class="Label__formGroup">Email or
                                             username</label>
-                                            <input type="text" name="user[login]" id="EMAIL"
+                                            <input type="text" name="name" id="name"
                                             class="input__formGroup" value=  "{{ old('email') }}"></div>
 
 
                                             @if ($errors->has('email'))
                                                 <span class="help-block">
-                                                    <strong>{{ $errors->first('email') }}</strong>
+                                                    <strong>{{ $errors->first('name') }}</strong>
                                                 </span>
                                             @endif
                                     <div class="form__group2 form__group3">
                                         <label for="login__user_password"
                                             class="Label__formGroup">Password</label>
-                                            <input type="password" name="user[password]" id="login__user_password"
+                                            <input type="password" name="password" id="password"
                                             class="input__formGroup" value=""></div>
 
                                             @if ($errors->has('password'))

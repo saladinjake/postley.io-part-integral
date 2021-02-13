@@ -562,56 +562,32 @@ svg:not(:root) {
 </style>
 
 <div class="pagecontainer__root">
-        <header class="container__header">
-            <nav class="wrapper__header nav__appbar">
-                <div class="content__container content__wrapper">
-                    <div class="section__content section__left">
-                        <!-- <ul class="header__list">
-                            <li>
-                                <a id="logo" href="#" class="tab__link tab__logo">
-                                    <img alt="Codecademy logo" class="image__header"
-                                        src="https://www.codecademy.com/webpack/44e01805165bfde4e6e4322c540abf81.svg">
-                                </a>
-                            </li>
-                        </ul> -->
-                        <ul class="header__list desktop__view">
-                            <li>
-                                <a id="catalog" href="#" class="tab__link">Home</a>
-                            </li>
-                            <li>
-                                <a href="#" id="pricing" class="tab__link">Sign Up</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="section__content section__right">
-                        <ul class="header__list desktop__view">
-                            <li>
-                                <div id="pro-button" class="tab__link">
-                                    <a data-btn="true" class="basic__button btn__medium btn_purple btn_outline__purple" href="#">Upgrade to Pro</a>
-                                </div>
-                            </li>
-                            <li>
-                                <div id="sign-up" class="tab__link register__btn">
-                                    <a class="basic__button btn__medium btn_purple" href="#">Sign up</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
+
         <main class="container__main-page main__content">
             <div class="spacer__container">
                 <h1 class="pageHeading__h1">Sign Up to Posted</h1>
                 <div class="form__container">
                     <div class="container__content-form">
                         <div class="flex__style col__style login-form__style">
-                            <form method="POST" class="form__base" action="{{ route('login') }}">
+                            <form method="POST" class="form__base" action="{{ route('register') }}">
 
                                 {{ csrf_field() }}
 
+                                @if (count($errors) > 0)
+                                    <div class="alert alert-danger">
+                                      <ul>
+                                          @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                          @endforeach
+                                      </ul>
+                                </div>
 
 
+                                @endif
+
+                                @if(Session::has('messagesuccess'))
+                                 <p class="alert alert-info">{{ Session::get('messagesuccess') }}</p>
+                               @endif
 
                                 <legend class="screenRead__style">Sign Up</legend>
                                 <div class="form__group1">
@@ -624,18 +600,17 @@ svg:not(:root) {
                                                   <strong>{{ $errors->first('name') }}</strong>
                                               </span>
                                           @endif
-                                          <input type="text" name="user[login]" id="name"
+                                          <input type="text" name="name" id="name"
                                           class="input__formGroup" value=  "{{ old('name') }}"></div>
 
                                     <div class="form__group2 form__group3">
-                                        <label for="user_login" class="Label__formGroup">Email or
-                                            username</label>
+                                        <label for="user_login" class="Label__formGroup">Email</label>
                                             @if ($errors->has('email'))
                                                 <span class="help-block">
                                                     <strong>{{ $errors->first('email') }}</strong>
                                                 </span>
                                             @endif
-                                            <input type="text" name="user[login]" id="email"
+                                            <input type="text" name="email" id="email"
                                             class="input__formGroup" value=  "{{ old('email') }}"></div>
 
 
@@ -648,7 +623,7 @@ svg:not(:root) {
                                                     <strong>{{ $errors->first('password') }}</strong>
                                                 </span>
                                             @endif
-                                            <input type="password" name="user[password]" id="password"
+                                            <input type="password" name="password" id="password"
                                             class="input__formGroup" value=""></div>
 
 
@@ -660,7 +635,7 @@ svg:not(:root) {
                                                             <strong>{{ $errors->first('comfirm_password') }}</strong>
                                                         </span>
                                                     @endif
-                                                    <input type="password" name="user[password]" id="comfirm_password"
+                                                    <input type="password" name="comfirm_password" id="comfirm_password"
                                                     class="input__formGroup" value=""></div>
 
 
@@ -671,17 +646,16 @@ svg:not(:root) {
                                         password</a>
                                 </div>
                                     <button class="basic__button btn__lg btn__royalblue btn__xlarge btn__submit"
-                                    id="user_submit">Log in</button>
+                                    id="user_submit">Sign Up</button>
                             </form>
                         </div>
                         <div class="flex__style col__style">
                             <div>
-                                <h2 class="heading__2">Log In with Another Account</h2>
+                                <h2 class="heading__2">Sign Up with Another Account</h2>
                                 <ul class="btnContainer__social">
                                     <li class="btnContainer__ListItem">
-                                        <a class="basic__button btn__x-sm btn__red btn__social" href="/login/facebook">
-                                            <img src="https://www.codecademy.com/webpack/44054fb2b758a8db1cece67a2acbe209.svg"
-                                                class="icon__social">
+                                        <a class="basic__button btn__x-sm " href="/login/facebook">
+                                            <img style="width:350px;height:100px"  src="https://i.stack.imgur.com/Ar2Uo.png">
                                         </a>
                                     </li>
 
