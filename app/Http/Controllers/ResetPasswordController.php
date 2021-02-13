@@ -39,7 +39,7 @@ class ResetPasswordController extends Controller
     }
 
     public function showResetForm($token) {
-       return view('auth.password.reset', ['token' => $token]);
+       return view('auth.passwords.reset', ['token' => $token]);
      }
     public function reset(Request $request)
     {
