@@ -621,15 +621,15 @@ position: fixed;
               </nav>
           </header>
 
-          <a class="navbar-brand" href="https://codepen.io/conorjmcnamara/" style="padding:0px;">
-              <img src="https://res.cloudinary.com/candidbusiness/image/upload/v1455406304/dispute-bills-chicago.png">
+          <a class="navbar-brand" href="{{url('/')}}" style="padding:0px;">
+              <img src="{{asset('images/target1.png')}}">
           </a>
 
       </div>
   </div>
 
 
-  <div class="content" >
+  <div class="content">
 
 
     <div class="flexbox" style="margin-top:40px">

@@ -40,7 +40,11 @@ class LoginController extends Controller
     public function redirectToFacebookProvider()
     {
         return Socialite::driver('facebook')->scopes([
-            "publish_actions, manage_pages", "publish_pages"])->redirect();
+            // "publish_actions, manage_pages", "publish_pages"
+            "public_profile","email", "pages_manage_metadata",
+            "pages_read_engagement, pages_read_user_content"
+            // "pages_read_engagement,read_insights",
+            ])->redirect();
     }
 
     /**
@@ -51,10 +55,12 @@ class LoginController extends Controller
     public function handleProviderFacebookCallback()
     {
         $auth_user = Socialite::driver('facebook')->user();
+        // dd($auth_user->token);
 
         $user = User::updateOrCreate(
             [
-                'email' => $auth_user->email
+                'email' => $auth_user->email,
+                'password' => 'tochange',
             ],
             [
                 'token' => $auth_user->token,
@@ -63,7 +69,7 @@ class LoginController extends Controller
         );
 
         Auth::login($user, true);
-        return redirect()->to('/'); // Redirect to a secure page
+        return redirect()->to('/home'); // Redirect to a secure page
     }
 
 
@@ -94,9 +100,7 @@ class LoginController extends Controller
 
     public function logout(){
       \Auth::logout();
-
       return redirect()->route('login');
-
     }
 
 

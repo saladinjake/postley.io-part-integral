@@ -561,7 +561,7 @@ svg:not(:root) {
 
 </style>
 
-<div class="pagecontainer__root">
+<div class="pagecontainer__root"  style="overflow:hidden;width:100%">
 
         <main class="container__main-page main__content">
             <div class="spacer__container">

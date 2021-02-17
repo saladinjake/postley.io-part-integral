@@ -71,7 +71,7 @@ b{
 
 .content__container {
     height: 100%;
-    max-width: calc(1440px + 12rem);
+    /* max-width: calc(1440px + 12rem); */
 }
 
 @media only screen and (min-width:75rem) {
@@ -86,6 +86,7 @@ b{
     margin: 0 auto;
     align-items: center;
     display: flex;
+
 }
 
 .section__content {
@@ -545,7 +546,7 @@ svg:not(:root) {
 
 </style>
 
-<div class="pagecontainer__root">
+<div class="pagecontainer__root" style="overflow:hidden;width:100%">
 
         <main class="container__main-page main__content">
             <div class="spacer__container">
@@ -626,7 +627,7 @@ svg:not(:root) {
                         </div>
                     </div>
                 </div>
-                <a href="#" class="outLink__register">Not a member yet? <b>Sign up free</b></a>
+                <a href="{{ route('login') }}" class="outLink__register">Already a member ? <b>Login</b></a>
             </div>
         </main>
 

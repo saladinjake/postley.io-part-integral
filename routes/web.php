@@ -17,6 +17,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\FbpostController;
 
 
 Route::get('/', function () {
@@ -31,6 +32,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::post('/logout',  [LoginController::class, 'logout'])->name('logout');
     Route::get('register', [RegisterController::class, 'showRegistrationForm'] )->name('register');
     Route::post('register', [RegisterController::class, 'create'] );
+    // Route::get('/verify/{token}', 'RegisterController@verifyEmail')->name('verify');
     // // Password Reset Routes... this was not requsted
     Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'] )->name('password.request');
     Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'] )->name('password.email');
@@ -38,9 +40,11 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::post('password/reset',  [ResetPasswordController::class, 'reset']);
 // });
 
+
 Route::group(['middleware' => ['auth']], function(){
-    Route::get('/user/profile', 'FbpostController@getUserProfile');
-    Route::post('/user/profile', 'FbpostController@postToProfile');
-    Route::get('/profile', 'FbpostController@getProfile');
-    Route::get('/page/newpost', 'FbpostController@postToPage');
+    Route::get('/user/profile', [FbpostController::class,'getUserProfile']);
+    Route::get('/user/company/metadata', [FbpostController::class,'fetchPageMetaData']);
+    // Route::post('/user/profile', [FbpostController::class,'postToProfile']);
+    // Route::get('/profile', [FbpostController::class, 'postToProfile']);
+    // Route::get('/page/newpost', [FbpostController::class, 'postToPage']);
 });

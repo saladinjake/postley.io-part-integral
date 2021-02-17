@@ -151,12 +151,13 @@
     <div id="app">
 
       <header>
-    			<div class="head_container">
+    			<div class="head_container" style="height:30px">
     				<div class="logo">
-    					<img src="http://www.hubover.com/wp-content/uploads/2017/01/logo_dark.png">
+    					<img src="{{ asset('images/target1.png') }}">
+
     				</div>
-    				<div class="menu" id="myTopnav">
-    					<ul>
+    				<div class="menu" id="myTopnav" >
+    					<ul style="margin-top:-10px">
     						<a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="openNav()">&#9776;</a>
                 @guest
     						   <li><a href="{{url('/')}}">Home</a></li>

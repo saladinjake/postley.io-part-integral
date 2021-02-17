@@ -20,4 +20,19 @@
         </div>
     </div>
 </div>
+
+
+
+<div class="panel-body">
+
+        <div class="alert alert-success">
+            <h1>Go to Analytics page <a href="{url('/user/company/metadata')}" />Click Here</a></h1>
+        </div>
+
+
+
+</div>
+
+
+
 @endsection
