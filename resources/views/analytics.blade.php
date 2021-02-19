@@ -443,17 +443,25 @@
               <h2>My page Analytics</h2>
               <div class="row"  id="imageView">
 
-                @foreach($analytics as $data)
-                  @if($data)
-                      <div class="col-sm-4 col-md-4 col-lg-4 product" id="{{time()}}">
+
+                @foreach($analytics as $post)
+                  @if( $post)
+                    <?php   $likesObject = $post['likes'];
+                            $likesCount = $likesObject['summary']['total_count'];
+
+                            $commentsObject = $post['comments'];
+                            $commentsCount = $commentsObject['summary']['total_count'];
+
+                       ?>
+                      <div style="height:200px" class="col-sm-4 col-md-4 col-lg-4 product" id="{{time()}}">
                           <div class="card cardbox " >
                              <div class="image-wrapper">
-                                  <h1>{{ $data['name'] }}</h1>
+                                  <p>post ID: {{ $post['id'] }}</p>
                               </div>
                               <div class="card-body">
                                   <div class="card-content">
-                                    <h3 class="main">{{ $data['title'] }}</h3>
-                                    <p>{{ $data['description']  }}</p>
+                                    <h3 class="main">likes count(s) {{ $likesCount }}</h3>
+                                    <p>comments count(s) {{ $commentsCount  }}</p>
 
                                   </div>
                                   <div class="">

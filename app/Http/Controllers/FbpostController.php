@@ -72,12 +72,13 @@ class FbpostController extends Controller
     $pageId =  "1077271382339414";
     $pageAccessToken = $this->fetchAccessToken($pageId);
     //make the get request for the initWithPageAnalytics
+    $response = null;
     try {
-        // Returns a `FacebookFacebookResponse` object
-        $response = $this->apiLink->get(
-          '/'. $pageId .'/insights?metric=page_impressions_unique,page_engaged_users,page_fans',
-            $pageAccessToken
-        );
+
+      $response = $this->apiLink->get(
+        '/'.$pageId.'/feed?fields=likes.summary(1).limit(0),comments.summary(1).limit(0)',
+        (string) $pageAccessToken);
+
       } catch(FacebookResponseException $e) {
         echo 'Graph returned an error: ' . $e->getMessage();
         // exit;
@@ -85,9 +86,35 @@ class FbpostController extends Controller
         echo 'Facebook SDK returned an error: ' . $e->getMessage();
         // exit;
       }
-      $graphNode = $response->getGraphEdge()->asArray();
-       // return  dd($graphNode);
-      return view('analytics',["analytics" => $graphNode ]);
+
+      if($response != null){
+        $response = $response->getDecodedBody();
+        $pagePosts = $response['data'];
+        // dd($response);
+        // $likesCount = null;
+        // // foreach ($pagePosts as $post) {
+        // //   $likesObject = $post['likes'];
+        // //   $likesCount = $likesObject['summary']['total_count'];
+        // //   // dd($likesCount);
+        // //
+        // //   $commentsObject = $post['comments'];
+        // //   $commentsCount = $commentsObject['summary']['total_count'];
+        // //   dd($commentsCount);
+        // // }
+
+          return view('analytics',["analytics" => $pagePosts ]);
+      }
+
+        return view('analytics',["analytics" => [] ]);
+
+
+
+
+
+
+
+
+
 
   }
 
@@ -106,7 +133,6 @@ class FbpostController extends Controller
           foreach ($pages as $key) {
               if ($key['id'] == $page_id) {
                   // dd($key);
-
                   return $key['access_token'];
               }
           }
@@ -115,6 +141,29 @@ class FbpostController extends Controller
       }
   }
 
+
+  function getPageMetric(){
+    $pageId =  "1077271382339414";
+    $pageAccessToken = $this->fetchAccessToken($pageId);
+    //make the get request for the initWithPageAnalytics
+    $response = null;
+    try {
+        // Returns a `FacebookFacebookResponse` object
+        $response = $this->apiLink->get(
+          '/'. $pageId .'/insights?metric=page_impressions_unique,page_engaged_users,page_fans',
+            $pageAccessToken
+        );
+      } catch(FacebookResponseException $e) {
+        echo 'Graph returned an error: ' . $e->getMessage();
+        // exit;
+      } catch(FacebookSDKException $e) {
+        echo 'Facebook SDK returned an error: ' . $e->getMessage();
+        // exit;
+      }
+      $graphNode = $response->getGraphEdge()->asArray();
+       return  dd($graphNode);
+
+  }
 
   function batchRequest(){
 
